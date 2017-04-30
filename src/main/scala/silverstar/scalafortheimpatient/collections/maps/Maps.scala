@@ -1,10 +1,7 @@
-package scala.collections.maps
+package silverstar.scalafortheimpatient.collections.maps
 
 import scala.collection.immutable.SortedMap
 
-/**
- * @author sylwesterstocki
- */
 object Maps {
 
   val scores1 = Map("Alice" -> 10, "Bob" -> 3, "Cindy" -> 8)

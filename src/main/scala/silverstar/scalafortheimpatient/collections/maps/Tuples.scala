@@ -1,8 +1,5 @@
-package scala.collections.maps
+package silverstar.scalafortheimpatient.collections.maps
 
-/**
- * @author sylwesterstocki
- */
 object Tuples {
 
   val tupleScore1 = (1, 3.14, "John")

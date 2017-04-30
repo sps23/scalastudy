@@ -1,11 +1,8 @@
-package scala.collections.arrays
+package silverstar.scalafortheimpatient.collections.arrays
 
-import scala.util.Random
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
-/**
- * @author sylwesterstocki
- */
 object Exercises {
 
   //returns an array of n random integers from <0,n)

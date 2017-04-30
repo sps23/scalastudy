@@ -1,8 +1,5 @@
-package scala.collections.arrays
+package silverstar.scalafortheimpatient.collections.arrays
 
-/**
- * @author sylwesterstocki
- */
 object ArrayVariableLength {
 
   import scala.collection.mutable.ArrayBuffer

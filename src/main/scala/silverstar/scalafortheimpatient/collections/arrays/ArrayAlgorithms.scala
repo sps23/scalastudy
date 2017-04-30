@@ -1,10 +1,7 @@
-package scala.collections.arrays
+package silverstar.scalafortheimpatient.collections.arrays
 
 import scala.collection.mutable.ArrayBuffer
 
-/**
- * @author sylwesterstocki
- */
 object ArrayAlgorithms {
 
   val num1 = Array(4, 55, 6, 32, 78, 98, 1, 44)

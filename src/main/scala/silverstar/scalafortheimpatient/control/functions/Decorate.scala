@@ -1,8 +1,5 @@
-package scala.control.functions
+package silverstar.scalafortheimpatient.control.functions
 
-/**
- * @author sylwesterstocki
- */
 object Decorate {
   
   def decorate(str: String, left: String = "[", right: String = "]") = left + str + right

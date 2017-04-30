@@ -1,8 +1,5 @@
-package scala.control.functions
+package silverstar.scalafortheimpatient.control.functions
 
-/**
- * @author sylwesterstocki
- */
 object Factorial {
 
   def facIter(n: Int) = {

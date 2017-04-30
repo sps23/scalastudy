@@ -1,8 +1,5 @@
-package scala.control.functions
+package silverstar.scalafortheimpatient.control.functions
 
-/**
- * @author sylwesterstocki
- */
 object Procedure {
   
   // no explicit return type

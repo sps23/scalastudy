@@ -1,8 +1,5 @@
-package scala.collections.arrays
+package silverstar.scalafortheimpatient.collections.arrays
 
-/**
- * @author sylwesterstocki
- */
 object ArrayFixedLength {
   
   val nums = new Array[Int](10)
