@@ -1,6 +1,7 @@
 package silverstar.adventofcode.day1
 
 import scala.annotation.tailrec
+import scala.math.abs
 
 /**
   * --- Day 1: No Time for a Taxicab ---
@@ -46,7 +47,7 @@ object NoTimeForATaxicab {
     }
 
     val finalPosition: Position = iter(moves, Position(0, 0, N))
-    Math.abs(finalPosition.x) + Math.abs(finalPosition.y)
+    abs(finalPosition.x) + abs(finalPosition.y)
   }
 
   def makeMove(position: Position, move: Move): Position = {
