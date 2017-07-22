@@ -1,4 +1,4 @@
-package silverstar.adventofcode.day1
+package silverstar.adventofcode2016.day1
 
 import scala.annotation.tailrec
 import scala.math.abs

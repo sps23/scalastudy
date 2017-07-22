@@ -1,4 +1,4 @@
-package silverstar.adventofcode.day2
+package silverstar.adventofcode2016.day2
 
 import org.scalatest.Matchers
 import org.scalatest.FunSpec
