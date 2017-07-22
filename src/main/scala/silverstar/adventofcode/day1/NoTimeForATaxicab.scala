@@ -30,6 +30,12 @@ import scala.math.abs
   * R2, R2, R2 leaves you 2 blocks due South of your starting position, which is 2 blocks away.
   * R5, L5, R5, R3 leaves you 12 blocks away.
   * How many blocks away is Easter Bunny HQ?
+  *
+  * --- Part Two ---
+  * Then, you notice the instructions continue on the back of the Recruiting Document. Easter Bunny HQ is actually
+  * at the first location you visit twice.
+  * For example, if your instructions are R8, R4, R4, R8, the first location you visit twice is 4 blocks away, due East.
+  * How many blocks away is the first location you visit twice?
   */
 object NoTimeForATaxicab {
 
@@ -38,7 +44,7 @@ object NoTimeForATaxicab {
     case right if right.startsWith("R") => R(right.tail.toInt)
   }.toList
 
-  def howManyBlocksAway(moves: List[Move]): Int = {
+  def howManyBlocksAway(input: String): Int = {
 
     @tailrec
     def iter(tmpMoves: List[Move], tmpPosition: Position): Position = tmpMoves match {
@@ -46,8 +52,30 @@ object NoTimeForATaxicab {
       case h :: t => iter(t, makeMove(tmpPosition, h))
     }
 
+    val moves: List[Move] = parseInput(input)
     val finalPosition: Position = iter(moves, Position(0, 0, N))
-    abs(finalPosition.x) + abs(finalPosition.y)
+    finalPosition.distance
+  }
+
+  def howManyBlocksAwayFirstVisitedTwice(input: String): Int = {
+
+    val initialPosition = Position(0, 0, N)
+
+    @tailrec
+    def iter(tmpMoves: List[Move], tmpPosition: Position, previousPositions: List[Position]): Position = tmpMoves match {
+      case Nil => initialPosition
+      case h :: t =>
+        val (nextPosition, prev) = makeMoveWithVisited(tmpPosition, h)
+        val intersection = prev.intersect(previousPositions)
+        if(intersection.nonEmpty)
+          intersection.head
+        else
+          iter(t, nextPosition, prev ::: previousPositions)
+    }
+
+    val moves: List[Move] = parseInput(input)
+    val finalPosition: Position = iter(moves, initialPosition, List.empty)
+    finalPosition.distance
   }
 
   def makeMove(position: Position, move: Move): Position = {
@@ -64,6 +92,19 @@ object NoTimeForATaxicab {
     newPosition
   }
 
+  def makeMoveWithVisited(position: Position, move: Move): (Position, List[Position]) = {
+    val newPosition: (Position, List[Position]) = (position.direction, move) match {
+      case (N, L(d)) => (Position(position.x - d, position.y, W), (0 until d).map(i => Position(position.x - i, position.y, N)).toList)
+      case (N, R(d)) => (Position(position.x + d, position.y, E), (0 until d).map(i => Position(position.x + i, position.y, N)).toList)
+      case (E, L(d)) => (Position(position.x, position.y + d, N), (0 until d).map(i => Position(position.x, position.y + i, N)).toList)
+      case (E, R(d)) => (Position(position.x, position.y - d, S), (0 until d).map(i => Position(position.x, position.y - i, N)).toList)
+      case (S, L(d)) => (Position(position.x + d, position.y, E), (0 until d).map(i => Position(position.x + i, position.y, N)).toList)
+      case (S, R(d)) => (Position(position.x - d, position.y, W), (0 until d).map(i => Position(position.x - i, position.y, N)).toList)
+      case (W, L(d)) => (Position(position.x, position.y - d, S), (0 until d).map(i => Position(position.x, position.y - i, N)).toList)
+      case (W, R(d)) => (Position(position.x, position.y + d, N), (0 until d).map(i => Position(position.x, position.y + i, N)).toList)
+    }
+    newPosition
+  }
 
   sealed trait Move {
     val distance: Int
@@ -83,5 +124,8 @@ object NoTimeForATaxicab {
 
   case object W extends Direction
 
-  case class Position(x: Int, y: Int, direction: Direction)
+  case class Position(x: Int, y: Int, direction: Direction) {
+    def distance: Int = abs(x) + abs(y)
+  }
+
 }
