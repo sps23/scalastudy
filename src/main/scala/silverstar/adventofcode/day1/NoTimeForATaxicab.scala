@@ -63,25 +63,25 @@ object NoTimeForATaxicab {
     }
     newPosition
   }
+
+
+  sealed trait Move {
+    val distance: Int
+  }
+
+  case class L(distance: Int) extends Move
+
+  case class R(distance: Int) extends Move
+
+  sealed trait Direction
+
+  case object N extends Direction
+
+  case object E extends Direction
+
+  case object S extends Direction
+
+  case object W extends Direction
+
+  case class Position(x: Int, y: Int, direction: Direction)
 }
-
-sealed trait Move {
-  val distance: Int
-}
-
-case class L(distance: Int) extends Move
-
-case class R(distance: Int) extends Move
-
-sealed trait Direction
-
-case object N extends Direction
-
-case object E extends Direction
-
-case object S extends Direction
-
-case object W extends Direction
-
-
-case class Position(x: Int, y: Int, direction: Direction)
