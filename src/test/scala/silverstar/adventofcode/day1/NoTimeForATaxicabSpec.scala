@@ -1,7 +1,7 @@
 package silverstar.adventofcode.day1
 
 import org.scalatest.{FunSpec, Matchers}
-import silverstar.adventofcode.day1.NoTimeForATaxicab.{howManyBlocksAway, parseInput}
+import silverstar.adventofcode.day1.NoTimeForATaxicab._
 
 class NoTimeForATaxicabSpec extends FunSpec with Matchers {
 
