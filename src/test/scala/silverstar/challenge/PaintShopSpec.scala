@@ -15,8 +15,7 @@ class PaintShopSpec extends FunSpec with Matchers {
     """5
       |1 M 3 G 5 G
       |2 G 3 M 4 G
-      |5 M
-    """.stripMargin
+      |5 M""".stripMargin
 
   val order1 = Order(
     numberOfColors = 5,
@@ -32,8 +31,7 @@ class PaintShopSpec extends FunSpec with Matchers {
   val input2: String =
     """1
       |1 G
-      |1 M
-    """.stripMargin
+      |1 M""".stripMargin
 
   val order2 = Order(
     numberOfColors = 1,
@@ -58,17 +56,15 @@ class PaintShopSpec extends FunSpec with Matchers {
       |2 M
       |5 G
       |4 M
-      |5 G 4 M
-      |
-    """.stripMargin
+      |5 G 4 M""".stripMargin
 
   val result3 = Seq(Gloss, Matt, Gloss, Matt, Gloss)
 
-  val input4 =
+  val input4: String =
     """2
       |1 G 2 M
       |1 M
-      |"""
+      |""".stripMargin
 
   val result4 = Seq(Matt, Matt)
 
