@@ -2,6 +2,7 @@ package silverstar.challenge
 
 import java.io.{File, FileInputStream, InputStream}
 
+import scala.annotation.tailrec
 import scala.io.Source
 
 /**
@@ -46,13 +47,16 @@ import scala.io.Source
   */
 object PaintShop {
 
-  case class Order(numberOfColors: Int, customerPreferences: Seq[CustomerPreference])
+  case class Order(numberOfColors: Int, customerPreferences: List[CustomerPreference])
 
-  case class CustomerPreference(colors: Seq[Paint])
+  case class CustomerPreference(colors: List[Paint]) {
+    def isSingle: Boolean = colors.length == 1
+  }
 
   case class Paint(color: Int, style: PaintStyle)
 
   abstract case class PaintStyle(value: Char)
+
   object PaintStyle {
     def apply(value: Char): PaintStyle = value match {
       case 'G' => Gloss
@@ -62,9 +66,41 @@ object PaintShop {
   }
 
   object Gloss extends PaintStyle('G')
+
   object Matt extends PaintStyle('M')
 
-  def satisfyOrder(order: Order): Seq[PaintStyle] = ???
+  def satisfyOrder(order: Order): List[PaintStyle] = {
+    def fillInWithDefault(s: List[Paint]): List[PaintStyle] = {
+      val grouped: Map[Int, List[Paint]] = s.groupBy(_.color)
+      (1 to order.numberOfColors).toList.map(i => if (grouped.contains(i)) grouped(i).head.style else Gloss)
+    }
+
+    @tailrec
+    def checkMultiples(s: List[Paint], m: List[CustomerPreference]): List[PaintStyle] = {
+      m match {
+        case List() =>
+          if (s.length == order.numberOfColors) s.sortBy(_.color).map(_.style)
+          else fillInWithDefault(s)
+        case h :: t =>
+          if (h.colors.intersect(s).isEmpty) { //there is no match with paint discovered from singles
+            if (s.length == order.numberOfColors) List() // all the paints were discovered from singes
+            else {
+              val withoutSingles = h.colors.filterNot(p => s.map(_.color).contains(p.color))
+              println(s"withoutSingles=${withoutSingles.mkString(";")}")
+              ???
+            }
+          }
+          else checkMultiples(s, t)
+      }
+    }
+
+    val (singles, multiples) = order.customerPreferences.partition(_.isSingle)
+    val singlePaints: List[Paint] = singles.distinct.map(_.colors.head) // no choice here
+    println(s"singlePaints=${singlePaints.mkString(";")}")
+    val hasDuplicates = singlePaints.groupBy(_.color).exists(_._2.length > 1)
+    if (hasDuplicates) List()
+    else checkMultiples(singlePaints, multiples)
+  }
 
   def parseInput(inputStream: InputStream): Order = {
     val lines = Source.fromInputStream(inputStream).getLines()

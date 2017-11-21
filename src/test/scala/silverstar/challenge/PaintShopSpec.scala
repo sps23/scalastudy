@@ -19,14 +19,14 @@ class PaintShopSpec extends FunSpec with Matchers {
 
   val order1 = Order(
     numberOfColors = 5,
-    customerPreferences = Seq(
-      CustomerPreference(colors = Seq(Paint(1, Matt), Paint(3, Gloss), Paint(5, Gloss))),
-      CustomerPreference(colors = Seq(Paint(2, Gloss), Paint(3, Matt), Paint(4, Gloss))),
-      CustomerPreference(colors = Seq(Paint(5, Matt)))
+    customerPreferences = List(
+      CustomerPreference(colors = List(Paint(1, Matt), Paint(3, Gloss), Paint(5, Gloss))),
+      CustomerPreference(colors = List(Paint(2, Gloss), Paint(3, Matt), Paint(4, Gloss))),
+      CustomerPreference(colors = List(Paint(5, Matt)))
     )
   )
 
-  val result1 = Seq(Gloss, Gloss, Gloss, Gloss, Matt)
+  val result1 = List(Gloss, Gloss, Gloss, Gloss, Matt)
 
   val input2: String =
     """1
@@ -35,9 +35,9 @@ class PaintShopSpec extends FunSpec with Matchers {
 
   val order2 = Order(
     numberOfColors = 1,
-    customerPreferences = Seq(
-      CustomerPreference(colors = Seq(Paint(1, Gloss))),
-      CustomerPreference(colors = Seq(Paint(1, Matt)))
+    customerPreferences = List(
+      CustomerPreference(colors = List(Paint(1, Gloss))),
+      CustomerPreference(colors = List(Paint(1, Matt)))
     )
   )
 
@@ -58,7 +58,7 @@ class PaintShopSpec extends FunSpec with Matchers {
       |4 M
       |5 G 4 M""".stripMargin
 
-  val result3 = Seq(Gloss, Matt, Gloss, Matt, Gloss)
+  val result3 = List(Gloss, Matt, Gloss, Matt, Gloss)
 
   val input4: String =
     """2
@@ -66,7 +66,7 @@ class PaintShopSpec extends FunSpec with Matchers {
       |1 M
       |""".stripMargin
 
-  val result4 = Seq(Matt, Matt)
+  val result4 = List(Matt, Matt)
 
   describe("parseInputFile") {
     it("should parse input1 to order1") {
@@ -85,7 +85,7 @@ class PaintShopSpec extends FunSpec with Matchers {
     }
 
     it("should return NO result for order2") {
-      satisfyOrder(order2) shouldBe Seq()
+      satisfyOrder(order2) shouldBe List()
     }
 
     it("should return result3 for order3") {
