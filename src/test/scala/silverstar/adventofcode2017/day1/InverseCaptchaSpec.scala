@@ -46,6 +46,21 @@ class InverseCaptchaSpec extends FunSpec with Matchers {
         solveCaptcha2(data) shouldBe 1341
       }
     }
+
+    describe("solveCaptcha3") {
+
+      testData.foreach(t => {
+        it(s"should return '${t._2}' for '${t._1}'") {
+          solveCaptcha3(t._1) shouldBe t._2
+        }
+      })
+
+      it("should return result for example data") {
+        val input = getClass.getResourceAsStream("InverseCaptcha.txt")
+        val data = Source.fromInputStream(input, "UTF8").mkString
+        solveCaptcha3(data) shouldBe 1341
+      }
+    }
   }
 
   describe("solveNewCaptcha") {

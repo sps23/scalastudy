@@ -69,12 +69,22 @@ object InverseCaptcha {
     iter(captcha.toList :+ captcha.head, 0)
   }
 
-  def solveNewCaptcha(captcha: String): Long = {
-    val (firstHalf, secondHalf) = captcha.toList.splitAt(captcha.length / 2)
-    val zipped = captcha.toList.zip(secondHalf ++ firstHalf)
+  def solveCaptcha3(captcha: String): Long = {
+    val shiftOne = captcha.tail :+ captcha.head
+    val zipped = captcha.zip(shiftOne)
 
     zipped.foldLeft(0)((acc, pair) => {
-      if(pair._1 == pair._2) acc + pair._1.asDigit
+      if (pair._1 == pair._2) acc + pair._1.asDigit
+      else acc
+    })
+  }
+
+  def solveNewCaptcha(captcha: String): Long = {
+    val (firstHalf, secondHalf) = captcha.splitAt(captcha.length / 2)
+    val zipped = captcha.zip(secondHalf ++ firstHalf)
+
+    zipped.foldLeft(0)((acc, pair) => {
+      if (pair._1 == pair._2) acc + pair._1.asDigit
       else acc
     })
   }
