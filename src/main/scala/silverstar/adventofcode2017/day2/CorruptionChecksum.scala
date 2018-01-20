@@ -50,7 +50,7 @@ object CorruptionChecksum {
     })
   }
 
-  def calculateNewChecksum(input: String): Long = {
+  def calculateNewChecksum1(input: String): Long = {
 
     def combinations(a: List[Int]): List[(Int, Int)] = {
       @tailrec
@@ -73,6 +73,24 @@ object CorruptionChecksum {
         case pair if pair._1 % pair._2 == 0 => pair._1 / pair._2
       }.getOrElse(0)
       acc + evenDivides
+    })
+  }
+
+  def calculateNewChecksum2(input: String): Int = {
+
+    def findFirstEvenlyDivisible(a: List[Int]): Int = a match {
+        case a1 :: a2 :: t =>
+          val tail = a2 :: t
+          tail.collectFirst {
+            case r: Int if a1 % r == 0 => a1 / r
+          }.getOrElse(findFirstEvenlyDivisible(tail))
+        case _ => 0
+      }
+
+    val lines: Array[String] = input.split(Properties.lineSeparator)
+    val spreadsheet: Array[Array[Int]] = lines.map(_.split("\\W").map(_.toInt))
+    spreadsheet.foldLeft(0)((acc, row) => {
+      acc + findFirstEvenlyDivisible(row.toList.sorted.reverse)
     })
   }
 }

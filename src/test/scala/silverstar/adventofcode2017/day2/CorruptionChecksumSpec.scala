@@ -25,20 +25,37 @@ class CorruptionChecksumSpec extends FunSpec with Matchers {
     }
   }
 
-  describe("calculateNewChecksum") {
+  describe("calculateNewChecksum1") {
 
     it("should return '9' for the test spreadsheet") {
       val spreadsheet =
         """5 9 2 8
           |9 4 7 3
           |3 8 6 5""".stripMargin
-      calculateNewChecksum(spreadsheet) shouldBe 9
+      calculateNewChecksum1(spreadsheet) shouldBe 9
     }
 
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("CorruptionChecksum.txt")
       val data = Source.fromInputStream(input, "UTF8").mkString
-      calculateNewChecksum(data) shouldBe 244
+      calculateNewChecksum1(data) shouldBe 244
+    }
+  }
+
+  describe("calculateNewChecksum2") {
+
+    it("should return '9' for the test spreadsheet") {
+      val spreadsheet =
+        """5 9 2 8
+          |9 4 7 3
+          |3 8 6 5""".stripMargin
+      calculateNewChecksum2(spreadsheet) shouldBe 9
+    }
+
+    it("should return result for example data") {
+      val input = getClass.getResourceAsStream("CorruptionChecksum.txt")
+      val data = Source.fromInputStream(input, "UTF8").mkString
+      calculateNewChecksum2(data) shouldBe 244
     }
   }
 }
