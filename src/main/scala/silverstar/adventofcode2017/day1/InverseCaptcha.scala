@@ -1,5 +1,7 @@
 package silverstar.adventofcode2017.day1
 
+import scala.annotation.tailrec
+
 /**
   * --- Day 1: Inverse Captcha ---
   * You're standing in a room with "digitization quarantine" written in LEDs along one wall.
@@ -25,15 +27,29 @@ object InverseCaptcha {
 
   def solveCaptcha(captcha: String): Long = {
 
+    @tailrec
     def iter(digits: List[Long], acc: Long): Long = digits match {
-      case c1 :: c2 :: tail =>
-        if (c1 == c2) iter(c2 :: tail, acc + c1)
-        else iter(c2 :: tail, acc)
+      case d1 :: d2 :: tail =>
+        if (d1 == d2) iter(d2 :: tail, acc + d1)
+        else iter(d2 :: tail, acc)
       case _ => acc
     }
 
     val captchaDigits = captcha.map(_.asDigit.toLong).toList
     val captchaDigitsWithExtraFirstAsLast = captchaDigits :+ captchaDigits.head
     iter(captchaDigitsWithExtraFirstAsLast, 0)
+  }
+
+  def solveCaptcha2(captcha: String): Long = {
+
+    @tailrec
+    def iter(chars: List[Char], acc: Long): Long = chars match {
+      case c1 :: c2 :: tail =>
+        if (c1 == c2) iter(c2 :: tail, acc + c1.asDigit)
+        else iter(c2 :: tail, acc)
+      case _ => acc
+    }
+
+    iter(captcha.toList :+ captcha.head, 0)
   }
 }
