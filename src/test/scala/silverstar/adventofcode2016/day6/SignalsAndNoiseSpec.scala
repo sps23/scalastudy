@@ -1,10 +1,11 @@
 package silverstar.adventofcode2016.day6
 
-import org.scalatest.{FunSpec, Matchers}
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.io.Source
 
-class SignalsAndNoiseSpec extends FunSpec with Matchers {
+class SignalsAndNoiseSpec extends AnyFunSpec with Matchers {
 
   import SignalsAndNoise._
 
@@ -72,7 +73,7 @@ class SignalsAndNoiseSpec extends FunSpec with Matchers {
 
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("SignalsAndNoise.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       decodeMessage(data) shouldBe "tzstqsua"
     }
   }
@@ -84,7 +85,7 @@ class SignalsAndNoiseSpec extends FunSpec with Matchers {
 
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("SignalsAndNoise.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       decodeMessageMod(data) shouldBe "myregdnr"
     }
   }

@@ -1,10 +1,11 @@
 package silverstar.adventofcode2016.day4
 
-import org.scalatest.{FunSpec, Matchers}
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.io.Source
 
-class SecurityThroughObscuritySpec extends FunSpec with Matchers {
+class SecurityThroughObscuritySpec extends AnyFunSpec with Matchers {
 
   import SecurityThroughObscurity._
 
@@ -36,9 +37,9 @@ class SecurityThroughObscuritySpec extends FunSpec with Matchers {
     }
 
     describe("sumOfTheSectorIdsForTheRealRooms") {
-      it("should return result for example data") {
+      ignore("should return result for example data") {
         val input = getClass.getResourceAsStream("SecurityThroughObscurity.txt")
-        val data = Source.fromInputStream(input, "UTF8").mkString
+        val data  = Source.fromInputStream(input, "UTF8").mkString
         sumOfTheSectorIdsForTheRealRooms(data) shouldBe 278221
       }
     }

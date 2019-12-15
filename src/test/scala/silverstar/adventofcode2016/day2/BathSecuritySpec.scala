@@ -1,15 +1,15 @@
 package silverstar.adventofcode2016.day2
 
-import org.scalatest.Matchers
-import org.scalatest.FunSpec
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.io.Source
 
-class BathSecuritySpec extends FunSpec with Matchers {
+class BathSecuritySpec extends AnyFunSpec with Matchers {
 
   import BathSecurity._
 
-  private val input = getClass.getResourceAsStream("BathSecurity.txt")
+  private val input   = getClass.getResourceAsStream("BathSecurity.txt")
   private val example = Source.fromInputStream(input, "UTF8").mkString
 
   describe("1to9Pad") {

@@ -1,13 +1,13 @@
 package silverstar.adventofcode2017.day1
 
-import org.scalatest.{FunSpec, Matchers}
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.io.Source
 
-class InverseCaptchaSpec extends FunSpec with Matchers {
+class InverseCaptchaSpec extends AnyFunSpec with Matchers {
 
   import silverstar.adventofcode2017.day1.InverseCaptcha._
-
 
   describe("solveCaptcha") {
     val testData: Seq[(String, Long)] = Seq(
@@ -27,7 +27,7 @@ class InverseCaptchaSpec extends FunSpec with Matchers {
 
       it("should return result for example data") {
         val input = getClass.getResourceAsStream("InverseCaptcha.txt")
-        val data = Source.fromInputStream(input, "UTF8").mkString
+        val data  = Source.fromInputStream(input, "UTF8").mkString
         solveCaptcha1(data) shouldBe 1341
       }
     }
@@ -42,7 +42,7 @@ class InverseCaptchaSpec extends FunSpec with Matchers {
 
       it("should return result for example data") {
         val input = getClass.getResourceAsStream("InverseCaptcha.txt")
-        val data = Source.fromInputStream(input, "UTF8").mkString
+        val data  = Source.fromInputStream(input, "UTF8").mkString
         solveCaptcha2(data) shouldBe 1341
       }
     }
@@ -57,7 +57,7 @@ class InverseCaptchaSpec extends FunSpec with Matchers {
 
       it("should return result for example data") {
         val input = getClass.getResourceAsStream("InverseCaptcha.txt")
-        val data = Source.fromInputStream(input, "UTF8").mkString
+        val data  = Source.fromInputStream(input, "UTF8").mkString
         solveCaptcha3(data) shouldBe 1341
       }
     }
@@ -80,7 +80,7 @@ class InverseCaptchaSpec extends FunSpec with Matchers {
 
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("InverseCaptcha.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       solveNewCaptcha(data) shouldBe 1348
     }
   }

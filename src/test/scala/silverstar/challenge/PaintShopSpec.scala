@@ -2,10 +2,13 @@ package silverstar.challenge
 
 import java.io.ByteArrayInputStream
 
-import org.scalatest.{FunSpec, Matchers}
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 import PaintShop._
+import org.scalatest.Ignore
 
-class PaintShopSpec extends FunSpec with Matchers {
+@Ignore
+class PaintShopSpec extends AnyFunSpec with Matchers {
 
   implicit class StringImprovements(string: String) {
     def toInputStream = new ByteArrayInputStream(string.getBytes)

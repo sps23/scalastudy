@@ -1,10 +1,11 @@
 package silverstar.adventofcode2016.day3
 
-import org.scalatest.{FunSpec, Matchers}
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.io.Source
 
-class SquaresWithThreeSidesSpec extends FunSpec with Matchers {
+class SquaresWithThreeSidesSpec extends AnyFunSpec with Matchers {
 
   import SquaresWithThreeSides._
 
@@ -21,7 +22,7 @@ class SquaresWithThreeSidesSpec extends FunSpec with Matchers {
   describe("howManyTriangles") {
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("SquaresWithThreeSides.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       howManyTriangles(data) shouldBe 983
     }
   }
@@ -29,7 +30,7 @@ class SquaresWithThreeSidesSpec extends FunSpec with Matchers {
   describe("howManyTrianglesVertical") {
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("SquaresWithThreeSides.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       howManyTrianglesVertical(data) shouldBe 1836
     }
   }

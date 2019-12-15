@@ -1,10 +1,11 @@
 package silverstar.adventofcode2017.day2
 
-import org.scalatest.{FunSpec, Matchers}
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.io.Source
 
-class CorruptionChecksumSpec extends FunSpec with Matchers {
+class CorruptionChecksumSpec extends AnyFunSpec with Matchers {
 
   import CorruptionChecksum._
 
@@ -20,7 +21,7 @@ class CorruptionChecksumSpec extends FunSpec with Matchers {
 
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("CorruptionChecksum.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       calculateChecksum(data) shouldBe 36174
     }
   }
@@ -37,7 +38,7 @@ class CorruptionChecksumSpec extends FunSpec with Matchers {
 
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("CorruptionChecksum.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       calculateNewChecksum1(data) shouldBe 244
     }
   }
@@ -54,7 +55,7 @@ class CorruptionChecksumSpec extends FunSpec with Matchers {
 
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("CorruptionChecksum.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       calculateNewChecksum2(data) shouldBe 244
     }
   }

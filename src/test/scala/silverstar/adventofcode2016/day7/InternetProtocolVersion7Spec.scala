@@ -1,10 +1,11 @@
 package silverstar.adventofcode2016.day7
 
-import org.scalatest.{FunSpec, Matchers}
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.io.Source
 
-class InternetProtocolVersion7Spec extends FunSpec with Matchers {
+class InternetProtocolVersion7Spec extends AnyFunSpec with Matchers {
 
   import InternetProtocolVersion7._
 
@@ -68,7 +69,7 @@ class InternetProtocolVersion7Spec extends FunSpec with Matchers {
 
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("InternetProtocolVersion7.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       howManyIPv7SupportTLS(data) shouldBe 110
     }
   }
@@ -89,7 +90,7 @@ class InternetProtocolVersion7Spec extends FunSpec with Matchers {
 
     it("should return result for example data") {
       val input = getClass.getResourceAsStream("InternetProtocolVersion7.txt")
-      val data = Source.fromInputStream(input, "UTF8").mkString
+      val data  = Source.fromInputStream(input, "UTF8").mkString
       howManyIPv7SupportSSL(data) shouldBe 242
     }
   }
