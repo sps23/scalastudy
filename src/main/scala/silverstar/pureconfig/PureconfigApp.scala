@@ -1,15 +1,16 @@
 package silverstar.pureconfig
 
 import com.typesafe.config.{ConfigFactory, ConfigRenderOptions, ConfigValue}
+import pureconfig.{ConfigSource, ConfigWriter}
 import pureconfig.error.ConfigReaderFailures
 import pureconfig.syntax._
+import pureconfig.generic.auto._
 
 case class KeyModel(key: String)
 
 case class ValueModel(value: String)
 
-case class KeyValuesModel(key: KeyModel,
-                          values: List[ValueModel])
+case class KeyValuesModel(key: KeyModel, values: List[ValueModel])
 
 case class PureConfigModel2(map: Map[String, List[ValueModel]])
 
@@ -47,8 +48,8 @@ object PureconfigApp extends App {
        |]
      """.stripMargin
 
-  val config = ConfigFactory.parseString(configString)
-  val p: Either[ConfigReaderFailures, PureconfigModel1] = pureconfig.loadConfig[PureconfigModel1](config)
+  val config                                            = ConfigFactory.parseString(configString)
+  val p: Either[ConfigReaderFailures, PureconfigModel1] = ConfigSource.fromConfig(config).load[PureconfigModel1]
   p match {
     case Left(f) => println(f)
     case Right(pm) =>
@@ -61,8 +62,8 @@ object PureconfigApp extends App {
     map = Map("k1" -> List(ValueModel("v1"), ValueModel("v2")))
   )
 
-  //  implicit val keyModelConfigWriter = ConfigWriter.toString[KeyModel](km => km.key)
-  //  implicit val valueModelConfigWriter = ConfigWriter.toString[ValueModel](vm => vm.value)
+//  implicit val keyModelConfigWriter   = ConfigWriter.toString[KeyModel](km => km.key)
+//  implicit val valueModelConfigWriter = ConfigWriter.toString[ValueModel](vm => vm.value)
 
   val s: ConfigValue = pcm2.toConfig
 
