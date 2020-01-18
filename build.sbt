@@ -5,6 +5,7 @@ version := "1.1"
 scalaVersion := "2.12.10"
 
 libraryDependencies ++= Seq(
+  "org.mongodb.scala" %% "mongo-scala-driver" % "2.6.0",
   "com.github.pureconfig" %% "pureconfig" % "0.12.1",
   "org.scalactic" %% "scalactic" % "3.1.0",
   "com.typesafe.slick" %% "slick" % "3.3.2",
