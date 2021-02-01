@@ -1,0 +1,10 @@
+image: bitbucketpipelines/scala-sbt:scala-2.12
+
+pipelines:
+  default: 
+      - step:
+          name: 'Build and Test using sbt'
+          script:
+            - echo "Running 'sbt clean test' ..."
+            - sbt clean test
+
