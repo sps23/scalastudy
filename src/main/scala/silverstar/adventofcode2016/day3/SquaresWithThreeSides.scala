@@ -26,19 +26,24 @@ package silverstar.adventofcode2016.day3
 object SquaresWithThreeSides {
 
   def howManyTriangles(input: String): Int = {
-    //    val tuples: List[(Int, Int, Int)] = input.trim.split("\\W+").grouped(3).map {
-    //      case Array(a, b, c) => (a.toInt, b.toInt, c.toInt)
-    //    }.toList
-    val tuples = input.split("\r\n").map(_.trim.split("\\s+")).map(toTuple).toList
+    val tuples: List[(Int, Int, Int)] = input.trim
+      .split("\\D+")
+      .grouped(3)
+      .map {
+        case Array(a, b, c) => (a.toInt, b.toInt, c.toInt)
+      }
+      .toList
+//    val tuples = input.split("\r\n").map(_.trim.split("\\s+")).map(toTuple).toList
     tuples.count(isTriangle)
   }
 
   def howManyTrianglesVertical(input: String): Int = {
-    val withIndex = input.trim.split("\\W+").zipWithIndex
+    val withIndex = input.trim.split("\\D+").zipWithIndex
     //    val col1 = withIndex.filter(_._2 % 3 == 0).map(_._1).grouped(3).map(toTuple).toList
-    (0 to 2).foldLeft(List.empty[(Int, Int, Int)])((acc, i) =>
-      acc ++ withIndex.filter(_._2 % 3 == i).map(_._1).grouped(3).map(toTuple).toList
-    ).count(isTriangle)
+    (0 to 2)
+      .foldLeft(List.empty[(Int, Int, Int)])((acc, i) =>
+        acc ++ withIndex.filter(_._2 % 3 == i).map(_._1).grouped(3).map(toTuple).toList)
+      .count(isTriangle)
   }
 
   def toTuple(array: Array[String]): (Int, Int, Int) = array match {

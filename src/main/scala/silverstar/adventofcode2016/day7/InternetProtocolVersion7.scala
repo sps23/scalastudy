@@ -36,13 +36,15 @@ import scala.annotation.tailrec
   */
 object InternetProtocolVersion7 {
 
+  private val sep: String = System.lineSeparator()
+
   def howManyIPv7SupportTLS(s: String): Int = {
-    val split = s.split("\r\n")
+    val split = s.split(sep)
     split.map(parseIPv7).count(_.tlsSupport)
   }
 
   def howManyIPv7SupportSSL(s: String): Int = {
-    val split = s.split("\r\n")
+    val split = s.split(sep)
     split.map(parseIPv7).count(_.sslSupport)
   }
 
@@ -58,17 +60,17 @@ object InternetProtocolVersion7 {
 
   def toABA(s: String): Option[ABA] = s.toList match {
     case List(a, b, c) if a == c && a != b => Option(ABA(s.head, s.tail.head))
-    case _ => None
+    case _                                 => None
   }
 
   def parseIPv7(ip: String): IPv7 = {
 
     @tailrec
     def iter(s: List[Char], supernets: List[String], hypernets: List[String], tmp: String): IPv7 = s match {
-      case List() => IPv7((tmp :: supernets).reverse, hypernets.reverse)
+      case List()   => IPv7((tmp :: supernets).reverse, hypernets.reverse)
       case '[' :: t => iter(t, tmp :: supernets, hypernets, "")
       case ']' :: t => iter(t, supernets, tmp :: hypernets, "")
-      case a :: t => iter(t, supernets, hypernets, tmp + a)
+      case a :: t   => iter(t, supernets, hypernets, tmp + a)
     }
 
     iter(ip.toList, List(), List(), "")
@@ -79,8 +81,8 @@ object InternetProtocolVersion7 {
 
     def sslSupport: Boolean = {
       val abaFromHypernets: List[ABA] = hypernets.flatMap(getABA)
-      val babToCheck: List[String] = abaFromHypernets.map(_.getBAB)
-      val v: Boolean = supernets.exists(sn => babToCheck.exists(b => sn.contains(b)))
+      val babToCheck: List[String]    = abaFromHypernets.map(_.getBAB)
+      val v: Boolean                  = supernets.exists(sn => babToCheck.exists(b => sn.contains(b)))
       v
     }
   }
