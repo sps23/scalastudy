@@ -1,7 +1,7 @@
 package silverstar.pureconfig
 
 import com.typesafe.config.{ConfigFactory, ConfigRenderOptions, ConfigValue}
-import pureconfig.{ConfigSource, ConfigWriter}
+import pureconfig.ConfigSource
 import pureconfig.error.ConfigReaderFailures
 import pureconfig.syntax._
 import pureconfig.generic.auto._
@@ -61,9 +61,6 @@ object PureconfigApp extends App {
   val pcm2 = PureConfigModel2(
     map = Map("k1" -> List(ValueModel("v1"), ValueModel("v2")))
   )
-
-//  implicit val keyModelConfigWriter   = ConfigWriter.toString[KeyModel](km => km.key)
-//  implicit val valueModelConfigWriter = ConfigWriter.toString[ValueModel](vm => vm.value)
 
   val s: ConfigValue = pcm2.toConfig
 

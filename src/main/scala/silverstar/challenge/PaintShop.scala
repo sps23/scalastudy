@@ -1,6 +1,6 @@
 package silverstar.challenge
 
-import java.io.{File, FileInputStream, InputStream}
+import java.io.InputStream
 
 import scala.annotation.tailrec
 import scala.io.Source
@@ -61,7 +61,7 @@ object PaintShop {
     def apply(value: Char): PaintStyle = value match {
       case 'G' => Gloss
       case 'M' => Matt
-      case _ => throw new UnsupportedOperationException
+      case _   => throw new UnsupportedOperationException
     }
   }
 
@@ -89,12 +89,11 @@ object PaintShop {
               println(s"withoutSingles=${withoutSingles.mkString(";")}")
               ???
             }
-          }
-          else checkMultiples(s, t)
+          } else checkMultiples(s, t)
       }
     }
 
-    val (singles, multiples) = order.customerPreferences.partition(_.isSingle)
+    val (singles, multiples)      = order.customerPreferences.partition(_.isSingle)
     val singlePaints: List[Paint] = singles.distinct.map(_.colors.head) // no choice here
     println(s"singlePaints=${singlePaints.mkString(";")}")
     val hasDuplicates = singlePaints.groupBy(_.color).exists(_._2.length > 1)
@@ -103,7 +102,7 @@ object PaintShop {
   }
 
   def parseInput(inputStream: InputStream): Order = {
-    val lines = Source.fromInputStream(inputStream).getLines()
+    val lines          = Source.fromInputStream(inputStream).getLines()
     val numberOfColors = lines.next().toInt
     val p = lines.toList.map(l => {
       val paints = l.split(" ").grouped(2).toList.map(g => Paint(g(0).toInt, PaintStyle.apply(g(1).charAt(0))))

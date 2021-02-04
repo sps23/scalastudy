@@ -15,3 +15,11 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-nop" % "1.7.26",
   "org.scalatest" %% "scalatest" % "3.1.0" % "test"
 )
+
+addCompilerPlugin(
+  "org.wartremover" %% "wartremover" % "2.4.13" cross CrossVersion.full
+)
+wartremoverWarnings ++= Warts.unsafe
+//wartremoverErrors ++= Warts.unsafe
+
+scalacOptions ++= Seq("-deprecation", "-Xlint")
