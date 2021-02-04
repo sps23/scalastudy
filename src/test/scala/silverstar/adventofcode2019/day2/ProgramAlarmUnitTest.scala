@@ -23,7 +23,7 @@ class ProgramAlarmUnitTest extends AnyFunSpec with Matchers {
     )
 
     testData.foreach(t => {
-      it(s"should return '${t._2}' for '${t._1}'") {
+      it(s"should return '${t._2.mkString("; ")}' for '${t._1.mkString("; ")}'") {
         ProgramAlarm.intcodeComputer(t._1) shouldBe t._2
       }
     })

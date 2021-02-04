@@ -18,7 +18,7 @@ case class StringDataPoint(id: Option[Long], rowId: String, name: String, value:
   override type Value = String
 }
 
-class StringDataPoints(tag: Tag) extends Table[StringDataPoint](tag, "stringDataPoints") {
+class StringDataPoints(tag: Tag) extends Table[StringDataPoint](tag, None, "stringDataPoints") {
   def id    = column[Long]("id", O.PrimaryKey, O.AutoInc)
   def rowId = column[String]("row_id")
   def name  = column[String]("name")
@@ -32,7 +32,7 @@ case class DateDataPoint(id: Option[Long], rowId: String, name: String, value: O
   override type Value = Date
 }
 
-class DateDataPoints(tag: Tag) extends Table[DateDataPoint](tag, "dateDataPoints") {
+class DateDataPoints(tag: Tag) extends Table[DateDataPoint](tag, None, "dateDataPoints") {
   def id    = column[Long]("id", O.PrimaryKey, O.AutoInc)
   def rowId = column[String]("row_id")
   def name  = column[String]("name")
@@ -46,7 +46,7 @@ case class DoubleDataPoint(id: Option[Long], rowId: String, name: String, value:
   override type Value = Double
 }
 
-class DoubleDataPoints(tag: Tag) extends Table[DoubleDataPoint](tag, "doubleDataPoints") {
+class DoubleDataPoints(tag: Tag) extends Table[DoubleDataPoint](tag, None, "doubleDataPoints") {
   def id    = column[Long]("id", O.PrimaryKey, O.AutoInc)
   def rowId = column[String]("row_id")
   def name  = column[String]("name")

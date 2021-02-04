@@ -10,14 +10,14 @@ class NoTimeForATaxicabSpec extends AnyFunSpec with Matchers {
 
     describe("parseInput") {
       it("for 'R5, L5, R5, R3'") {
-        val actual   = parseInput("R5, L5, R5, R3")
-        val expected = List(R(5), L(5), R(5), R(3))
+        val actual: Seq[Move]   = parseInput("R5, L5, R5, R3")
+        val expected: Seq[Move] = List[Move](R(5), L(5), R(5), R(3))
         actual shouldBe expected
       }
 
       it("for 'R11, L222, R3333'") {
-        val actual   = parseInput("R11, L222, R3333")
-        val expected = List(R(11), L(222), R(3333))
+        val actual: Seq[Move]   = parseInput("R11, L222, R3333")
+        val expected: Seq[Move] = List[Move](R(11), L(222), R(3333))
         actual shouldBe expected
       }
     }

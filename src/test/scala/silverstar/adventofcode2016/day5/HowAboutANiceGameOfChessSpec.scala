@@ -36,7 +36,7 @@ class HowAboutANiceGameOfChessSpec extends AnyFunSpec with Matchers {
 
   describe("charAndPosition") {
     it("should return (1, '5') for hash '00000155F8105DFF7F56EE10FA9B9ABD'") {
-      charAndPosition("00000155F8105DFF7F56EE10FA9B9ABD") shouldBe (1, '5')
+      charAndPosition("00000155F8105DFF7F56EE10FA9B9ABD") shouldBe ((1, '5'))
     }
   }
 

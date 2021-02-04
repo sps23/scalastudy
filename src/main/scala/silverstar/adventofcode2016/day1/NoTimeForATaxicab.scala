@@ -39,20 +39,25 @@ import scala.math.abs
   */
 object NoTimeForATaxicab {
 
-  def parseInput(input: String): List[Move] = input.split(',').map(_.trim).collect {
-    case left if left.startsWith("L") => L(left.tail.toInt)
-    case right if right.startsWith("R") => R(right.tail.toInt)
-  }.toList
+  def parseInput(input: String): List[Move] =
+    input
+      .split(',')
+      .map(_.trim)
+      .collect {
+        case left if left.startsWith("L")   => L(left.tail.toInt)
+        case right if right.startsWith("R") => R(right.tail.toInt)
+      }
+      .toList
 
   def howManyBlocksAway(input: String): Int = {
 
     @tailrec
     def iter(tmpMoves: List[Move], tmpPosition: Position): Position = tmpMoves match {
-      case Nil => tmpPosition
+      case Nil    => tmpPosition
       case h :: t => iter(t, makeMove(tmpPosition, h))
     }
 
-    val moves: List[Move] = parseInput(input)
+    val moves: List[Move]       = parseInput(input)
     val finalPosition: Position = iter(moves, Position(0, 0, N))
     finalPosition.distance
   }
@@ -62,18 +67,19 @@ object NoTimeForATaxicab {
     val initialPosition = Position(0, 0, N)
 
     @tailrec
-    def iter(tmpMoves: List[Move], tmpPosition: Position, previousPositions: List[Position]): Position = tmpMoves match {
-      case Nil => initialPosition
-      case h :: t =>
-        val (nextPosition, prev) = makeMoveWithVisited(tmpPosition, h)
-        val intersection = prev.intersect(previousPositions)
-        if(intersection.nonEmpty)
-          intersection.head
-        else
-          iter(t, nextPosition, prev ::: previousPositions)
-    }
+    def iter(tmpMoves: List[Move], tmpPosition: Position, previousPositions: List[Position]): Position =
+      tmpMoves match {
+        case Nil => initialPosition
+        case h :: t =>
+          val (nextPosition, prev) = makeMoveWithVisited(tmpPosition, h)
+          val intersection         = prev.intersect(previousPositions)
+          if (intersection.nonEmpty)
+            intersection.head
+          else
+            iter(t, nextPosition, prev ::: previousPositions)
+      }
 
-    val moves: List[Move] = parseInput(input)
+    val moves: List[Move]       = parseInput(input)
     val finalPosition: Position = iter(moves, initialPosition, List.empty)
     finalPosition.distance
   }
@@ -94,14 +100,22 @@ object NoTimeForATaxicab {
 
   def makeMoveWithVisited(position: Position, move: Move): (Position, List[Position]) = {
     val newPosition: (Position, List[Position]) = (position.direction, move) match {
-      case (N, L(d)) => (Position(position.x - d, position.y, W), (0 until d).map(i => Position(position.x - i, position.y, N)).toList)
-      case (N, R(d)) => (Position(position.x + d, position.y, E), (0 until d).map(i => Position(position.x + i, position.y, N)).toList)
-      case (E, L(d)) => (Position(position.x, position.y + d, N), (0 until d).map(i => Position(position.x, position.y + i, N)).toList)
-      case (E, R(d)) => (Position(position.x, position.y - d, S), (0 until d).map(i => Position(position.x, position.y - i, N)).toList)
-      case (S, L(d)) => (Position(position.x + d, position.y, E), (0 until d).map(i => Position(position.x + i, position.y, N)).toList)
-      case (S, R(d)) => (Position(position.x - d, position.y, W), (0 until d).map(i => Position(position.x - i, position.y, N)).toList)
-      case (W, L(d)) => (Position(position.x, position.y - d, S), (0 until d).map(i => Position(position.x, position.y - i, N)).toList)
-      case (W, R(d)) => (Position(position.x, position.y + d, N), (0 until d).map(i => Position(position.x, position.y + i, N)).toList)
+      case (N, L(d)) =>
+        (Position(position.x - d, position.y, W), (0 until d).map(i => Position(position.x - i, position.y, N)).toList)
+      case (N, R(d)) =>
+        (Position(position.x + d, position.y, E), (0 until d).map(i => Position(position.x + i, position.y, N)).toList)
+      case (E, L(d)) =>
+        (Position(position.x, position.y + d, N), (0 until d).map(i => Position(position.x, position.y + i, N)).toList)
+      case (E, R(d)) =>
+        (Position(position.x, position.y - d, S), (0 until d).map(i => Position(position.x, position.y - i, N)).toList)
+      case (S, L(d)) =>
+        (Position(position.x + d, position.y, E), (0 until d).map(i => Position(position.x + i, position.y, N)).toList)
+      case (S, R(d)) =>
+        (Position(position.x - d, position.y, W), (0 until d).map(i => Position(position.x - i, position.y, N)).toList)
+      case (W, L(d)) =>
+        (Position(position.x, position.y - d, S), (0 until d).map(i => Position(position.x, position.y - i, N)).toList)
+      case (W, R(d)) =>
+        (Position(position.x, position.y + d, N), (0 until d).map(i => Position(position.x, position.y + i, N)).toList)
     }
     newPosition
   }
@@ -110,22 +124,21 @@ object NoTimeForATaxicab {
     val distance: Int
   }
 
-  case class L(distance: Int) extends Move
+  final case class L(distance: Int) extends Move
 
-  case class R(distance: Int) extends Move
+  final case class R(distance: Int) extends Move
 
   sealed trait Direction
 
-  case object N extends Direction
+  final case object N extends Direction
 
-  case object E extends Direction
+  final case object E extends Direction
 
-  case object S extends Direction
+  final case object S extends Direction
 
-  case object W extends Direction
+  final case object W extends Direction
 
   case class Position(x: Int, y: Int, direction: Direction) {
     def distance: Int = abs(x) + abs(y)
   }
-
 }

@@ -25,7 +25,8 @@ object Exercises {
   }
 
   //swaps adjacent elements of an array in place recursive way
-  def swapAdjInPlaceRec(a: Array[Int], startIndex: Int = 0) {
+  @scala.annotation.tailrec
+  def swapAdjInPlaceRec(a: Array[Int], startIndex: Int) {
     if (a.length - startIndex > 1) {
       val tmp = a(startIndex)
       a(startIndex) = a(startIndex + 1)
@@ -63,6 +64,7 @@ object Exercises {
 
   // returns new array that contains all positive values of original array in their original order,
   // followed by all zero and negative numbers in their original order
+  @SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements"))
   def separetaPosNegIter(a: Array[Int]): ArrayBuffer[Int] = {
     val positive = new ArrayBuffer[Int]
     val negative = new ArrayBuffer[Int]
@@ -84,7 +86,7 @@ object Exercises {
     a.distinct
   }
 
-  def getTimeZones(region: String = ""): Array[String] = {
+  def getTimeZones(region: String): Array[String] = {
     val timeZones: Array[String] = java.util.TimeZone.getAvailableIDs()
     if (region.trim.isEmpty) {
       timeZones.sorted

@@ -3,18 +3,19 @@ package silverstar.slicktest
 import java.sql.Date
 import java.time.LocalDate
 
+import slick.jdbc
+import slick.jdbc.H2Profile
 import slick.jdbc.H2Profile.api._
 
-import scala.concurrent.{Await, Future}
-import scala.util.{Failure, Success}
-import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.language.postfixOps
+import scala.util.{Failure, Success}
 
 object SlickApp extends App {
 
-  val db = Database.forConfig("h2mem1")
-
-  db.createSession()
+  val db: H2Profile.backend.Database          = Database.forConfig("h2mem1")
+  val session: jdbc.H2Profile.backend.Session = db.createSession()
 
   val localDateNow = LocalDate.now
   val dateNow      = Date.valueOf(localDateNow)
@@ -51,23 +52,20 @@ object SlickApp extends App {
   }
 
   val tradesResult: Future[Seq[Trade]] = db.run(trades.result)
-  Await.result(tradesResult, 5 seconds)
-  tradesResult.map(println)
+  tradesResult.foreach(t => println(t.mkString("\n")))
 
   val stringDataPointsResult: Future[Seq[StringDataPoint]] = db.run(stringDataPoints.result)
-  Await.result(stringDataPointsResult, 5 seconds)
-  stringDataPointsResult.map(println)
+  stringDataPointsResult.foreach(t => println(t.mkString("\n")))
 
   val dateDataPointsResult: Future[Seq[DateDataPoint]] = db.run(dateDataPoints.result)
-  Await.result(dateDataPointsResult, 5 seconds)
-  dateDataPointsResult.map(println)
+  dateDataPointsResult.foreach(t => println(t.mkString("\n")))
 
-  val joinStr                                                 = (trades join stringDataPoints on (_.id === _.rowId)).result
-  val joinDate                                                = (trades join dateDataPoints on (_.id === _.rowId)).result
-  val joinDouble                                              = (trades join doubleDataPoints on (_.id === _.rowId)).result
-  val joinStrResult: Future[Seq[(Trade, StringDataPoint)]]    = db.run(joinStr)
-  val joinDateResult: Future[Seq[(Trade, DateDataPoint)]]     = db.run(joinDate)
-  val joinDoubleResult: Future[Seq[(Trade, DoubleDataPoint)]] = db.run(joinDouble)
+  val joinStr                                           = (trades join stringDataPoints on (_.id === _.rowId)).result
+  val joinDate                                          = (trades join dateDataPoints on (_.id === _.rowId)).result
+  val joinDouble                                        = (trades join doubleDataPoints on (_.id === _.rowId)).result
+  val joinStrResult: Future[Seq[(Trade, DataPoint)]]    = db.run(joinStr)
+  val joinDateResult: Future[Seq[(Trade, DataPoint)]]   = db.run(joinDate)
+  val joinDoubleResult: Future[Seq[(Trade, DataPoint)]] = db.run(joinDouble)
 
   val joinResult: Future[Seq[(Trade, DataPoint)]] =
     for {
@@ -75,18 +73,17 @@ object SlickApp extends App {
       date   <- joinDateResult
       double <- joinDoubleResult
     } yield {
-      str ++ date ++ double
+      val result: Seq[(Trade, DataPoint)] = str ++ date ++ double
+      result
     }
 
-  Await.result(joinResult, 5 seconds)
-  joinResult.map(println)
+  joinResult.foreach(t => println(t.mkString("\n")))
 
   val mapByTrade: Future[Map[Trade, Seq[(Trade, DataPoint)]]] = joinResult.map(_.groupBy(_._1))
-  mapByTrade.map(println)
+  mapByTrade.foreach(t => println(t.mkString("\n")))
 
   val dataRows: Future[Seq[DataRow]] = for {
     m <- mapByTrade
   } yield DataRow.dataRowsFrom(m)
-  Await.result(dataRows, 5 seconds)
-  dataRows.map(println)
+  dataRows.foreach(t => println(t.mkString("\n")))
 }

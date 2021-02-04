@@ -1,5 +1,6 @@
 package silverstar.scalafortheimpatient.collections.arrays
 
+@SuppressWarnings(Array("org.wartremover.warts.All"))
 object ArrayTransforming {
 
   import scala.collection.mutable.ArrayBuffer
@@ -77,7 +78,7 @@ object ArrayTransforming {
   // Collect the indexes of negative, reverse the sequence, drop the last index, remove from a for each index
   def removeAllAfterFirstNegativeEfficient2(ab: ArrayBuffer[Int]) {
     println("ab = " + ab.toString())
-    var first = true
+    // var first = true
     val indexes = for (i <- ab.indices if ab(i) < 0) yield {
       //println("[i;first]= [" + i + ";" + first + "]; ab(" + i + ") = " + ab(i))
       i

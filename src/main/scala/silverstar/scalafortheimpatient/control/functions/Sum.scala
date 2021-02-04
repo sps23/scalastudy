@@ -1,15 +1,24 @@
 package silverstar.scalafortheimpatient.control.functions
 
-object Sum {
-  
-  def sumIter(args: Int*) = {
+object Sum extends App {
+
+  @SuppressWarnings(Array("org.wartremover.warts.Var"))
+  def sumIter(args: Int*): Int = {
     var result = 0
-    for(arg <- args) result += arg
+    for (arg <- args) result += arg
     result
   }
-  
-  def sumRec(args: Int*) : Int = {
-    if(args.length == 0) 0
-    else args.head + sumRec(args.tail : _*)
+
+  def sumRec(args: Int*): Int = {
+    args match {
+      case Nil    => 0
+      case h :: t => h + sumRec(t: _*)
+    }
   }
+
+  val s1 = sumIter(Seq(1, 2, 3): _*)
+  val s2 = sumRec(Seq(1, 2, 3): _*)
+
+  println(s1)
+  println(s2)
 }

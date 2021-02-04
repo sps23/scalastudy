@@ -18,22 +18,23 @@ object Exercises {
     }
   }
 
+  @SuppressWarnings(Array("org.wartremover.warts.Var"))
   def productUnicodeIter(s: String): BigDecimal = {
     var product: BigDecimal = 1
     for (ch <- s) product *= ch
     product
   }
-  
+
   def productUnicodeRec(s: String): BigDecimal = {
-    if(s.length == 0) 1
+    if (s.length == 0) 1
     else s.head * productUnicodeRec(s.tail)
   }
-  
-  def power(x : Int, n : Int) : Double = {
-    if(n == 0) 1
-    else if(n > 0) {
-      if(n % 2 == 0) {
-        power(x, n/2)*power(x, n/2)
+
+  def power(x: Int, n: Int): Double = {
+    if (n == 0) 1
+    else if (n > 0) {
+      if (n % 2 == 0) {
+        power(x, n / 2) * power(x, n / 2)
       } else {
         x * power(x, n - 1)
       }

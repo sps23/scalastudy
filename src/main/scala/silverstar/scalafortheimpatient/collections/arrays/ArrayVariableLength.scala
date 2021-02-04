@@ -1,5 +1,6 @@
 package silverstar.scalafortheimpatient.collections.arrays
 
+@SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements"))
 object ArrayVariableLength {
 
   import scala.collection.mutable.ArrayBuffer
@@ -26,11 +27,11 @@ object ArrayVariableLength {
   nums3.insert(2, 0)
   nums3.insert(2, 8, 8, 8)
 
-  //remove at index 
+  //remove at index
   nums3.remove(6)
   // remove 3 elements starting from index 6
   nums3.remove(6, 3)
 
-  val numsArray = nums1.toArray
+  val numsArray  = nums1.toArray
   val numsBuffer = Array[Int](9, 9, 9).toBuffer
 }

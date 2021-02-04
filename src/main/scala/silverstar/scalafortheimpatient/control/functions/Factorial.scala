@@ -2,8 +2,9 @@ package silverstar.scalafortheimpatient.control.functions
 
 object Factorial {
 
-  def facIter(n: Int) = {
-    var r : BigDecimal = 1
+  @SuppressWarnings(Array("org.wartremover.warts.Var"))
+  def facIter(n: Int): BigDecimal = {
+    var r: BigDecimal = 1
     for (i <- 1 to n) r = r * i
     r
   }
