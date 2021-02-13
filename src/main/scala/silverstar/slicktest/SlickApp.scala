@@ -9,7 +9,6 @@ import slick.jdbc.H2Profile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.language.postfixOps
 import scala.util.{Failure, Success}
 
 object SlickApp extends App {

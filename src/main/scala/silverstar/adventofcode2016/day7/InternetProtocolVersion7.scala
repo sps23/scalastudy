@@ -70,7 +70,7 @@ object InternetProtocolVersion7 {
       case List()   => IPv7((tmp :: supernets).reverse, hypernets.reverse)
       case '[' :: t => iter(t, tmp :: supernets, hypernets, "")
       case ']' :: t => iter(t, supernets, tmp :: hypernets, "")
-      case a :: t   => iter(t, supernets, hypernets, tmp + a)
+      case a :: t   => iter(t, supernets, hypernets, tmp + a.toString)
     }
 
     iter(ip.toList, List(), List(), "")

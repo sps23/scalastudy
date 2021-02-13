@@ -41,7 +41,7 @@ object ArrayTransforming {
   // Given an ArrayBuffer of integers remove all but the first negative number
 
   // Set a flag when the first negative number is called and remove all element beyond
-  def removeAllAfterFirstNegativeInefficient(ab: ArrayBuffer[Int]) {
+  def removeAllAfterFirstNegativeInefficient(ab: ArrayBuffer[Int]): Unit = {
     println("ab = " + ab.toString())
     var first = true
     var n     = ab.length
@@ -59,7 +59,7 @@ object ArrayTransforming {
   }
 
   // Collect the indexes to keep, copy nonnegative element to the front and trim the end
-  def removeAllAfterFirstNegativeEfficient1(ab: ArrayBuffer[Int]) {
+  def removeAllAfterFirstNegativeEfficient1(ab: ArrayBuffer[Int]): Unit = {
     println("ab = " + ab.toString())
     var first = true
     val indexes = for (i <- ab.indices if first) yield {
@@ -71,12 +71,12 @@ object ArrayTransforming {
     }
     //println("indexes = " + indexes.toString())
     for (j <- indexes.indices) ab(j) = ab(indexes(j))
-    ab.trimEnd(ab.length - indexes.length)
+    ab.dropRightInPlace(ab.length - indexes.length)
     println("ab = " + ab.toString())
   }
 
   // Collect the indexes of negative, reverse the sequence, drop the last index, remove from a for each index
-  def removeAllAfterFirstNegativeEfficient2(ab: ArrayBuffer[Int]) {
+  def removeAllAfterFirstNegativeEfficient2(ab: ArrayBuffer[Int]): Unit = {
     println("ab = " + ab.toString())
     // var first = true
     val indexes = for (i <- ab.indices if ab(i) < 0) yield {

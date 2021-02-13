@@ -55,24 +55,23 @@ object PaintShop {
 
   case class Paint(color: Int, style: PaintStyle)
 
-  abstract case class PaintStyle(value: Char)
+  sealed trait PaintStyle
+  case object Gloss   extends PaintStyle
+  case object Matt    extends PaintStyle
+  case object Unknown extends PaintStyle
 
   object PaintStyle {
     def apply(value: Char): PaintStyle = value match {
       case 'G' => Gloss
       case 'M' => Matt
-      case _   => throw new UnsupportedOperationException
+      case _   => Unknown
     }
   }
-
-  object Gloss extends PaintStyle('G')
-
-  object Matt extends PaintStyle('M')
 
   def satisfyOrder(order: Order): List[PaintStyle] = {
     def fillInWithDefault(s: List[Paint]): List[PaintStyle] = {
       val grouped: Map[Int, List[Paint]] = s.groupBy(_.color)
-      (1 to order.numberOfColors).toList.map(i => if (grouped.contains(i)) grouped(i).head.style else Gloss)
+      (1 to order.numberOfColors).toList.map(i => grouped.get(i).flatMap(_.headOption.map(_.style)).getOrElse(Gloss))
     }
 
     @tailrec
@@ -94,7 +93,7 @@ object PaintShop {
     }
 
     val (singles, multiples)      = order.customerPreferences.partition(_.isSingle)
-    val singlePaints: List[Paint] = singles.distinct.map(_.colors.head) // no choice here
+    val singlePaints: List[Paint] = singles.distinct.flatMap(_.colors.headOption)
     println(s"singlePaints=${singlePaints.mkString(";")}")
     val hasDuplicates = singlePaints.groupBy(_.color).exists(_._2.length > 1)
     if (hasDuplicates) List()

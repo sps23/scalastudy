@@ -73,10 +73,10 @@ object NoTimeForATaxicab {
         case h :: t =>
           val (nextPosition, prev) = makeMoveWithVisited(tmpPosition, h)
           val intersection         = prev.intersect(previousPositions)
-          if (intersection.nonEmpty)
-            intersection.head
-          else
-            iter(t, nextPosition, prev ::: previousPositions)
+          intersection.headOption match {
+            case Some(h) => h
+            case None    => iter(t, nextPosition, prev ::: previousPositions)
+          }
       }
 
     val moves: List[Move]       = parseInput(input)

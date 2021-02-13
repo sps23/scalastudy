@@ -15,7 +15,7 @@ object Exercises {
   }
 
   //swaps adjacent elements of an array in place iterative way
-  def swapAdjInPlaceIter(a: Array[Int]) {
+  def swapAdjInPlaceIter(a: Array[Int]): Unit = {
     for (i <- 0 until a.length - 1 by 2) {
       val tmp = a(i)
       a(i) = a(i + 1)
@@ -26,7 +26,7 @@ object Exercises {
 
   //swaps adjacent elements of an array in place recursive way
   @scala.annotation.tailrec
-  def swapAdjInPlaceRec(a: Array[Int], startIndex: Int) {
+  def swapAdjInPlaceRec(a: Array[Int], startIndex: Int): Unit = {
     if (a.length - startIndex > 1) {
       val tmp = a(startIndex)
       a(startIndex) = a(startIndex + 1)

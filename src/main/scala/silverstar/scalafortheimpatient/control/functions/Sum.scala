@@ -10,7 +10,7 @@ object Sum extends App {
   }
 
   def sumRec(args: Int*): Int = {
-    args match {
+    args.toList match {
       case Nil    => 0
       case h :: t => h + sumRec(t: _*)
     }

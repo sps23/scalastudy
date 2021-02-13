@@ -3,7 +3,7 @@ package silverstar.scalafortheimpatient.control.functions
 object Procedure {
 
   // no explicit return type
-  def box(s: String) {
+  def box(s: String): Unit = {
     val border = "-" * s.length + "--\n"
     print(border + "|" + s + "|\n" + border)
   }

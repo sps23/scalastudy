@@ -31,6 +31,7 @@ object SquaresWithThreeSides {
       .grouped(3)
       .map {
         case Array(a, b, c) => (a.toInt, b.toInt, c.toInt)
+        case _              => (-1, -1, -1)
       }
       .toList
     tuples.count(isTriangle)
@@ -46,6 +47,7 @@ object SquaresWithThreeSides {
 
   def toTuple(array: Array[String]): (Int, Int, Int) = array match {
     case Array(a, b, c) => (a.toInt, b.toInt, c.toInt)
+    case _              => (-1, -1, -1)
   }
 
   def isTriangle(possibleTriangle: (Int, Int, Int)): Boolean = {

@@ -29,13 +29,13 @@ object Maps {
     scores.getOrElse(key, -1)
   }
 
-  def scoreUpdate(scores: scala.collection.mutable.Map[String, Int], key: String, value: Int) {
+  def scoreUpdate(scores: scala.collection.mutable.Map[String, Int], key: String, value: Int): Unit = {
     scores(key) = value
     println("update: scores = " + scores.toString())
   }
 
   def scoreUpdate(scores: scala.collection.mutable.Map[String, Int],
-                  update: scala.collection.mutable.Map[String, Int]) {
+                  update: scala.collection.mutable.Map[String, Int]): Unit = {
     scores ++= update
     println("update: scores = " + scores.toString())
   }
@@ -50,7 +50,7 @@ object Maps {
     result
   }
 
-  def scoreUpdate(scores: scala.collection.mutable.Map[String, Int], keys: Array[String], values: Array[Int]) {
+  def scoreUpdate(scores: scala.collection.mutable.Map[String, Int], keys: Array[String], values: Array[Int]): Unit = {
     println("scorreUpdate")
     if (keys.length == values.length) {
       for (i <- keys.indices) {
@@ -62,7 +62,7 @@ object Maps {
     println("update: scores = " + scores.toString)
   }
 
-  def scorePrint(scores: Map[String, Int]) {
+  def scorePrint(scores: Map[String, Int]): Unit = {
     println("name\t\t>>>\t\tscore")
     for ((k, v) <- scores) {
       println(k + "\t\t>>>\t\t" + v.toString)

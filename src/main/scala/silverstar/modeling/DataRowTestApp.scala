@@ -28,7 +28,7 @@ object DataRowTestApp extends App {
 
   println(dataRow1.dataPoints.map(_.value).mkString(";"))
   println(dataRow1.dataPoints.map(_.error).mkString(";"))
-  dataRow1.dataPoints.map(dp => dp.value.map(_.getClass.getCanonicalName)).foreach(println)
+  println(dataRow1.dataPoints.map(_.value.fold("Empty")(_.getClass.getCanonicalName)).mkString(";"))
 
   println(dataRow1.dataPointsByNameMap.mkString("\n"))
 

@@ -39,6 +39,14 @@ object ProgramAlarm {
     override def run(input: Array[Int]): Array[Int] = input
   }
 
+  case object UnsupportedOperation extends ProgramOperation {
+    override val opcode: Int                        = -1
+    override val input1Index: Int                   = -1
+    override val input2Index: Int                   = -1
+    override val outputIndex: Int                   = -1
+    override def run(input: Array[Int]): Array[Int] = input
+  }
+
   object ProgramOperation {
 
     def create(input: Array[Int]): ProgramOperation = input match {
@@ -47,9 +55,9 @@ object ProgramAlarm {
         opcode match {
           case 1     => AddOperation(input1Index, input2Index, outputIndex)
           case 2     => MultiplyOperation(input1Index, input2Index, outputIndex)
-          case other => throw new UnsupportedOperationException(s"unknown opcode: $other")
+          case other => UnsupportedOperation
         }
-      case _ => throw new UnsupportedOperationException("invalid input: " + input.mkString(","))
+      case _ => UnsupportedOperation
     }
   }
 

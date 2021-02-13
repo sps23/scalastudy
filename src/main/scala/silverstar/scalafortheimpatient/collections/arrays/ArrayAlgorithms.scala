@@ -31,12 +31,12 @@ object ArrayAlgorithms {
     else a.sortWith(_ > _)
   }
 
-  def sortInPlace(a: Array[Int]) {
+  def sortInPlace(a: Array[Int]): Unit = {
     scala.util.Sorting.quickSort(a)
     println(a.toString)
   }
 
-  def printlnArray(a: Array[Int], version: Int) {
+  def printlnArray(a: Array[Int], version: Int): Unit = {
     if (version == 0) {
       println(a.mkString(" and "))
     } else if (version == 1) {

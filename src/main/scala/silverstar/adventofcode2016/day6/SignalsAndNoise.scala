@@ -63,7 +63,7 @@ object SignalsAndNoise {
 
   private def distinctCount(s: String) = s.map(c => (c, s.count(_ == c))).distinct
 
-  def mostCommonChar(s: String): Char = distinctCount(s).minBy(-_._2)._1
+  def mostCommonChar(s: String): Char = distinctCount(s).maxByOption(_._2).fold('$')(_._1)
 
-  def leastCommonChar(s: String): Char = distinctCount(s).minBy(_._2)._1
+  def leastCommonChar(s: String): Char = distinctCount(s).minByOption(_._2).fold('$')(_._1)
 }
