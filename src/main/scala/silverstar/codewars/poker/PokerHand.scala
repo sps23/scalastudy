@@ -9,19 +9,20 @@ trait Printable {
 }
 
 trait CharEncoded extends Printable {
-  val c: Char
+  def c: Char
 
   def print(): String = c.toUpper.toString
 }
 
 trait Ranked {
-  val rank: Int
+  def rank: Int
 }
 
 object Ranked {
-  def ordering[T <: Ranked]: Ordering[T] = Ordering.by { r: T =>
-    r.rank
-  }
+  def ordering[T <: Ranked]: Ordering[T] =
+    Ordering.by { r: T =>
+      r.rank
+    }.reverse
 }
 
 trait CharEncodedFactory[T <: CharEncoded] {
@@ -105,8 +106,74 @@ object Card {
   }
 }
 
-final class PokerHand(cards: Seq[Card]) extends Printable {
+final class PokerHand(cards: Seq[Card]) extends Printable with Ranked {
   override def print(): String = cards.map(_.print()).mkString(" ")
+  val cardsSorted: Seq[Card]   = cards.sorted(Card.ordering)
+
+  override def rank: Int = cards.foldLeft(0)(_ + _.value.rank) // not that simple
+
+  lazy val isPair: Boolean = cardsSorted match {
+    case Seq(a, b, c, d, e) =>
+      a.value.rank === b.value.rank || b.value.rank === c.value.rank || c.value.rank === d.value.rank || d.value.rank === e.value.rank
+    case _ => false
+  }
+
+  lazy val isTwoPairs: Boolean = cardsSorted match {
+    case Seq(a, b, c, d, e) =>
+      (a.value.rank === b.value.rank && c.value.rank === d.value.rank) ||
+        (b.value.rank === c.value.rank && d.value.rank === e.value.rank) ||
+        (a.value.rank === b.value.rank && d.value.rank === e.value.rank)
+    case _ => false
+  }
+
+  lazy val isThreeOfAKind: Boolean = cardsSorted match {
+    case Seq(a, b, c, d, e) =>
+      (a.value.rank === b.value.rank && b.value.rank === c.value.rank) ||
+        (b.value.rank === c.value.rank && c.value.rank === d.value.rank) ||
+        (c.value.rank === d.value.rank && d.value.rank === e.value.rank)
+    case _ => false
+  }
+
+  lazy val isStraight: Boolean = cardsSorted match {
+    case Seq(Card(Ace, _), Card(Five, _), Card(Four, _), Card(Three, _), Card(Two, _)) => true
+    case Seq(a, b, c, d, e) =>
+      e.value.rank + 1 === d.value.rank &&
+        d.value.rank + 1 === c.value.rank &&
+        c.value.rank + 1 === b.value.rank &&
+        b.value.rank + 1 === a.value.rank
+    case _ => false
+  }
+
+  lazy val isFlush: Boolean = cards match {
+    case Seq(Card(_, a), Card(_, b), Card(_, c), Card(_, d), Card(_, e)) => a === b && b === c && c === d && d === e
+    case _                                                               => false
+  }
+
+  lazy val isFullHouse: Boolean = cardsSorted match {
+    case Seq(a, b, c, d, e) =>
+      (a.value.rank === b.value.rank && b.value.rank === c.value.rank && d.value.rank === e.value.rank) ||
+        (a.value.rank === b.value.rank && c.value.rank === d.value.rank && d.value.rank === e.value.rank)
+    case _ => false
+  }
+
+  lazy val isFourOfAKind: Boolean = cardsSorted match {
+    case Seq(a, b, c, d, _)
+        if a.value.rank === b.value.rank && b.value.rank === c.value.rank && c.value.rank === d.value.rank =>
+      true
+    case Seq(_, a, b, c, d)
+        if a.value.rank === b.value.rank && b.value.rank === c.value.rank && c.value.rank === d.value.rank =>
+      true
+    case _ => false
+  }
+
+  lazy val isStraightFlush: Boolean = isStraight && isFlush
+
+  lazy val isRoyalFlush: Boolean = {
+    cardsSorted match {
+      case Seq(Card(Ace, _), Card(King, _), Card(Queen, _), Card(Jack, _), Card(Ten, _)) => isFlush
+      case _                                                                             => false
+    }
+  }
 }
 
 object PokerHand {
@@ -116,5 +183,17 @@ object PokerHand {
   def build(s: String): Option[PokerHand] = s.split(" ").flatMap(Card.build) match {
     case a if a.length === HAND_LENGTH => Option(new PokerHand(a.toSeq))
     case _                             => Option.empty[PokerHand]
+  }
+
+  def withCardsSorted(self: PokerHand): PokerHand = new PokerHand(self.cardsSorted)
+
+  val ordering: Ordering[PokerHand] = (x: PokerHand, y: PokerHand) => (x, y) match {
+    case (xx, yy) if xx.isRoyalFlush && yy.isRoyalFlush => 0
+    case (xx, _) if xx.isRoyalFlush => 1
+    case (xx, yy) if xx.isStraightFlush && yy.isStraightFlush => xx.rank.compare(yy.rank)
+    case (xx, _) if xx.isStraightFlush => 1
+    case (xx, yy) if xx.isFourOfAKind && yy.isFourOfAKind => xx.rank.compare(yy.rank)
+    case (xx, _) if xx.isFourOfAKind => 1
+    case (xx, yy) => xx.rank.compare(yy.rank)
   }
 }
